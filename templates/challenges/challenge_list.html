@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Challenges - CTF Platform{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="fw-bold">Challenges</h1>
+        <p class="text-muted">Solve these to earn points.</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for category in categories %}
+        <div class="col-12 mb-4">
+            <h3 class="border-bottom pb-2">{{ category.name }}</h3>
+            {% if category.description %}
+                <p class="text-muted small">{{ category.description }}</p>
+            {% endif %}
+            <div class="row mt-3">
+                {% for challenge in challenges %}
+                    {% if challenge.category == category %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 {% if challenge.id in solved_challenges %}bg-light border-success{% endif %}">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="card-title fw-bold m-0">{{ challenge.title }}</h5>
+                                        {% if challenge.id in solved_challenges %}
+                                            <span class="badge bg-success">Solved</span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="card-text"><strong>Points:</strong> {{ challenge.points }}</p>
+                                    <a href="{% url 'challenge_detail' challenge.pk %}" class="btn btn-sm btn-outline-dark">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No categories available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
