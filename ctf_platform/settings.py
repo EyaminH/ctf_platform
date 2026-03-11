@@ -38,6 +38,15 @@ ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '.vercel.app', 'now.sh', '.rende
 if DEBUG:
     ALLOWED_HOSTS.append('*')
 
+# CSRF Trusted Origins for Vercel
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://*.now.sh'
+]
+
+if os.environ.get('VERCEL_URL'):
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ.get('VERCEL_URL')}")
+
 
 # Application definition
 
@@ -144,7 +153,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.StaticFilesStorage", # Changed from CompressedManifest to simpler one for Vercel
     },
 }
 
