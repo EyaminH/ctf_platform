@@ -32,7 +32,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 # Add local hosts for dev
-ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '.render.com'])
+ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '.render.com', '.vercel.app'])
 
 
 # Application definition

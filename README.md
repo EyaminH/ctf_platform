@@ -49,13 +49,12 @@
 
 ## 🚢 Deployment
 
-This platform is configured for **one-click deployment** on Render:
+This platform is configured for deployment on **Vercel**.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/EyaminH/ctf_platform)
+1. Install Vercel CLI: `npm i -g vercel`
+2. Deploy: `vercel`
 
-Alternatively, you can manually configure:
-- **Build Command**: `./build.sh`
-- **Start Command**: `gunicorn ctf_platform.wsgi:application`
+Alternatively, connect your GitHub repository to Vercel for automatic deployments.
 
 ## 📄 License
 
