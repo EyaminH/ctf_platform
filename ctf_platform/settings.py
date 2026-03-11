@@ -47,6 +47,9 @@ CSRF_TRUSTED_ORIGINS = [
 if os.environ.get('VERCEL_URL'):
     CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ.get('VERCEL_URL')}")
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = os.environ.get('DEBUG', 'True') == 'False'
+
 
 # Application definition
 
