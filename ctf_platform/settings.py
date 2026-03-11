@@ -30,9 +30,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-a9477&9eqbx3(6ctk)fgz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-# Add local hosts for dev
-ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '.render.com', '.vercel.app'])
+ALLOWED_HOSTS = [h for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h]
+# Add default hosts
+ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '.vercel.app', 'now.sh', '.render.com'])
+
+# Broad allow if in debug mode
+if DEBUG:
+    ALLOWED_HOSTS.append('*')
 
 
 # Application definition
