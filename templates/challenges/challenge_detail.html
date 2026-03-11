@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ challenge.title }} - CTF Platform{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'challenge_list' %}">Challenges</a></li>
+                <li class="breadcrumb-item active">{{ challenge.category.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="m-0">{{ challenge.title }}</h4>
+                <span class="badge bg-primary fs-6">{{ challenge.points }} Points</span>
+            </div>
+            <div class="card-body">
+                <p class="card-text lead">{{ challenge.description|linebreaks }}</p>
+                <p class="text-muted small">Author: {{ challenge.author.username|default:"Anonymous" }}</p>
+                
+                <hr>
+
+                {% if already_solved %}
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading">Challenge Solved!</h5>
+                        <p>You have already correctly identified the flag for this challenge.</p>
+                    </div>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="flag" class="form-label fw-bold">Enter Flag</label>
+                            <input type="text" name="flag" id="flag" class="form-control form-control-lg" placeholder="e.g. CTF{example_flag}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Submit Flag</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

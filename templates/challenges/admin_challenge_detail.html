@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Review Challenge - {{ challenge.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'admin_review' %}">Admin Review</a></li>
+                <li class="breadcrumb-item active">{{ challenge.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="card mb-4 shadow-sm border-warning">
+            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                <p class="text-muted small">Author: {{ challenge.author.username|default:"Anonymous" }}</p>
+                <span class="badge bg-dark fs-6">{{ challenge.points }} Points</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Author:</div>
+                    <div class="col-sm-9">
+                        {% if challenge.author %}
+                        {{ challenge.author.username }} ({{ challenge.author.email }})
+                        {% else %}
+                        <span class="text-muted italic">System / Anonymous</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Category:</div>
+                    <div class="col-sm-9"><span class="badge bg-info text-dark">{{ challenge.category.name }}</span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Submitted:</div>
+                    <div class="col-sm-9 text-muted small">{{ challenge.created_at|date:"F d, Y H:i" }}</div>
+                </div>
+
+                <hr>
+
+                <h5 class="fw-bold">Description</h5>
+                <div class="card-text bg-light p-3 rounded border">
+                    {{ challenge.description|linebreaks }}
+                </div>
+                <h5 class="fw-bold mt-4">Required Flag</h5>
+                <div class="alert alert-dark font-monospace">
+                    {{ challenge.flag }}
+                </div>
+
+                <hr class="my-4">
+
+                <div class="mt-4">
+                    <form action="{% url 'reject_challenge' challenge.pk %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="rejection_reason" class="form-label fw-bold">Rejection Reason (Optional)</label>
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control" rows="2" placeholder="Explain why this challenge is being rejected..."></textarea>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-outline-danger btn-lg w-100" onclick="return confirm('Are you sure you want to reject this challenge?')">Reject Challenge</button>
+                        </div>
+                    </form>
+                    
+                    <form action="{% url 'approve_challenge' challenge.pk %}" method="post" class="mt-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg w-100">Approve & Make Live</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
