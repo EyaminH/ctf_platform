@@ -1,11 +1,13 @@
-{% extends 'base.html' %} {% block title %}Welcome - CTF Platform{% endblock %}
+{% extends 'base.html' %} {% block title %}Welcome to TigerLabBD{% endblock %}
 {% block content %}
 <div class="p-5 mb-4 bg-light rounded-3 border">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Ready to test your skills?</h1>
-        <p class="col-md-8 fs-4">
+    <div class="container-fluid py-5 text-center">
+        <img src="/static/images/logo.png" alt="TigerLabBD Logo" class="mb-4" style="max-height: 150px;">
+        <h1 class="display-5 fw-bold">TigerLabBD</h1>
+        <p class="fs-4">Bangladesh Cybersecurity & CTF Training Platform</p>
+        <p class="col-md-10 mx-auto fs-5 text-muted">
             Join our community of cybersecurity enthusiasts. Solve challenges, earn
-            points, and climb the leaderboard.
+            points, and climb the leaderboard. This project was built for the <strong>CSE 3100 Web Development Project</strong>.
         </p>
         {% if not user.is_authenticated %}
         <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get Started</a>
