@@ -5,149 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TigerLabBD{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --primary-neon: #00f2ff;
-            --secondary-neon: #d600ff;
-            --bg-deep: #0a0b10;
-            --surface: #161821;
-            --card-border: rgba(255, 255, 255, 0.05);
-            --glass: rgba(255, 255, 255, 0.03);
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
+            --primary-color: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-deep);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
             color: var(--text-main);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
         .navbar {
-            background: rgba(10, 11, 16, 0.8) !important;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 1rem 0;
+            background-color: #ffffff !important;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
         }
 
         .navbar-brand {
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
-            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            color: var(--text-main) !important;
+            letter-spacing: -0.02em;
         }
 
         .nav-link {
             font-weight: 500;
             color: var(--text-muted) !important;
-            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
         }
 
         .nav-link:hover {
-            color: var(--primary-neon) !important;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 242, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 255, 0.05);
+            color: var(--primary-color) !important;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #00d2ff, #00f2ff);
+            background-color: var(--primary-color);
             border: none;
-            color: #000;
             font-weight: 600;
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
         }
 
-        .btn-primary:hover {
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
-            transform: scale(1.02);
-            color: #000;
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: 600;
+            border-radius: 6px;
         }
 
-        .btn-dark {
-            background: #1e212b;
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-        }
-
-        .badge-cyber {
-            background: rgba(0, 242, 255, 0.1);
-            color: var(--primary-neon);
-            border: 1px solid rgba(0, 242, 255, 0.2);
+        .card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 0.5em 0.8em;
-            font-size: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .badge {
             font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .jumbo-gradient {
-            background: radial-gradient(circle at top right, rgba(214, 0, 255, 0.05), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(0, 242, 255, 0.05), transparent 40%);
-        }
-
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
+            padding: 0.4em 0.8em;
+            border-radius: 4px;
         }
 
         .alert {
-            background: var(--surface);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            border-radius: 12px;
-        }
-
-        .table {
-            color: var(--text-main) !important;
-            --bs-table-bg: transparent;
-            --bs-table-hover-bg: rgba(255, 255, 255, 0.02);
-            border-color: var(--card-border);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .table thead th {
-            border-bottom: 2px solid var(--card-border);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            background-color: #f1f5f9;
             color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.05), rgba(214, 0, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
         }
-
-        .rank-1 { border-left: 4px solid #ffd700 !important; }
-        .rank-2 { border-left: 4px solid #c0c0c0 !important; }
-        .rank-3 { border-left: 4px solid #cd7f32 !important; }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{% url 'home' %}">
                 <img src="/static/images/logo.png" alt="TigerLabBD" height="30" class="d-inline-block align-top me-2">

@@ -1,44 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %}Operations Terminal - TigerLabBD{% endblock %}
+{% block title %}Challenges - TigerLabBD{% endblock %}
 
 {% block content %}
-<div class="row mb-5">
-    <div class="col-md-8">
-        <h1 class="display-4 fw-bold mb-2">Operations Terminal</h1>
-        <p class="text-muted fs-5">Identify vulnerabilities, deploy exploits, and secure the network.</p>
-    </div>
+<div class="mb-5">
+    <h1 class="display-5 fw-bold text-dark mb-2">Challenges</h1>
+    <p class="text-muted fs-5">Browse and solve tasks across various categories.</p>
 </div>
 
 {% for category in categories %}
     <div class="mb-5">
-        <div class="d-flex align-items-center mb-4">
-            <h3 class="fw-bold m-0 text-white">{{ category.name }}</h3>
-            <div class="flex-grow-1 ms-4 border-top border-white border-opacity-10"></div>
-        </div>
+        <h3 class="fw-bold mb-4 text-dark h4 border-bottom pb-2">{{ category.name }}</h3>
         
         <div class="row g-4">
             {% for challenge in challenges %}
                 {% if challenge.category == category %}
                     <div class="col-md-4">
-                        <div class="card h-100 {% if challenge.id in solved_challenges %}border-success border-opacity-50 shadow-[0_0_15px_rgba(25,135,84,0.1)]{% endif %}">
+                        <div class="card h-100 {% if challenge.id in solved_challenges %}border-success bg-opacity-10{% endif %}">
                             <div class="card-body p-4 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <span class="text-primary fw-bold mono small"><i class="bi bi-cpu me-1"></i> ID_{{ challenge.id|stringformat:"03d" }}</span>
+                                    <span class="text-muted small fw-medium">#{{ challenge.id }}</span>
                                     {% if challenge.id in solved_challenges %}
-                                        <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25 px-2 py-1 small">
-                                            <i class="bi bi-check2-circle"></i> COMPLETED
+                                        <span class="badge bg-success bg-opacity-10 text-success">
+                                            <i class="bi bi-check-circle"></i> Solved
                                         </span>
                                     {% else %}
-                                        <span class="text-muted fw-bold small">{{ challenge.points }} PTS</span>
+                                        <span class="text-primary fw-bold small">{{ challenge.points }} PTS</span>
                                     {% endif %}
                                 </div>
 
-                                <h4 class="card-title fw-bold mb-3 text-white">{{ challenge.title }}</h4>
+                                <h5 class="card-title fw-bold mb-3 text-dark">{{ challenge.title }}</h5>
                                 
                                 <div class="mt-auto pt-3">
-                                    <a href="{% url 'challenge_detail' challenge.pk %}" class="btn {% if challenge.id in solved_challenges %}btn-dark{% else %}btn-primary{% endif %} w-100">
-                                        {% if challenge.id in solved_challenges %}Revisit Trace{% else %}Initiate Deployment{% endif %}
+                                    <a href="{% url 'challenge_detail' challenge.pk %}" class="btn {% if challenge.id in solved_challenges %}btn-outline-success{% else %}btn-outline-primary{% endif %} w-100">
+                                        {% if challenge.id in solved_challenges %}Solved{% else %}Solve Challenge{% endif %}
                                     </a>
                                 </div>
                             </div>
@@ -50,8 +45,7 @@
     </div>
 {% empty %}
     <div class="text-center py-5">
-        <i class="bi bi-shield-slash display-1 text-muted opacity-25"></i>
-        <h4 class="text-muted mt-3">No operational categories found in the database.</h4>
+        <p class="text-muted">No categories available.</p>
     </div>
 {% endfor %}
 {% endblock %}
