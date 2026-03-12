@@ -1,64 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}Admin Review - CTF Platform{% endblock %}
+{% block title %}Admin Review - TigerLabBD{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col">
-        <h1 class="fw-bold">Admin Review Interface</h1>
-        <p class="text-muted">Review and approve or reject user-submitted challenges.</p>
-    </div>
+<div class="mb-5">
+    <h1 class="display-5 fw-bold text-dark mb-2">Admin Review Interface</h1>
+    <p class="text-muted fs-5">Review and authorize community-submitted challenges.</p>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-dark">
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Challenge</th>
+                        <th>Category</th>
+                        <th>Points</th>
+                        <th>Date</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for challenge in pending_challenges %}
                         <tr>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                            <th>Points</th>
-                            <th>Submitted</th>
-                            <th class="text-end pe-4">Actions</th>
+                            <td class="ps-4">
+                                <div class="fw-bold text-dark">{{ challenge.title }}</div>
+                                <div class="text-muted small">{{ challenge.author.username }}</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary border small">{{ challenge.category.name }}</span>
+                            </td>
+                            <td class="fw-medium">{{ challenge.points }}</td>
+                            <td class="text-muted small">{{ challenge.created_at|date:"M d, Y" }}</td>
+                            <td class="text-end pe-4">
+                                <form action="{% url 'approve_challenge' challenge.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-success px-3">Approve</button>
+                                </form>
+                                <form action="{% url 'reject_challenge' challenge.pk %}" method="post" class="d-inline ms-1">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Reject and delete this challenge?')">Reject</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for challenge in pending_challenges %}
-                            <tr>
-                                <td>
-                                    <h6 class="mb-0 fw-bold">
-                                        <a href="{% url 'admin_challenge_detail' challenge.pk %}" class="text-decoration-none">
-                                            {{ challenge.title }}
-                                        </a>
-                                    </h6>
-                                    <small class="text-muted">{{ challenge.description|truncatewords:10 }}</small>
-                                </td>
-                                <td>{{ challenge.author.username }}</td>
-                                <td><span class="badge bg-info text-dark">{{ challenge.category.name }}</span></td>
-                                <td>{{ challenge.points }}</td>
-                                <td class="text-muted small">{{ challenge.created_at|date:"M d, Y" }}</td>
-                                <td class="text-end pe-4">
-                                    <form action="{% url 'approve_challenge' challenge.pk %}" method="post" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
-                                    </form>
-                                    <form action="{% url 'reject_challenge' challenge.pk %}" method="post" class="d-inline ms-1">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to reject and delete this challenge?')">Reject</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="6" class="text-center py-5 text-muted">No pending challenges to review.</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">No pending challenges awaiting review.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -52,6 +52,7 @@
                             </div>
                         {% else %}
                             <form method="post" class="bg-light p-4 rounded-3 border">
+                                {% csrf_token %}
                                 <div class="mb-3">
                                     <label for="flag" class="form-label fw-bold text-dark small">Submit Flag</label>
                                     <input type="text" name="flag" id="flag" class="form-control form-control-lg border-secondary border-opacity-25" placeholder="Enter flag here" required>
