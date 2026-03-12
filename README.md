@@ -2,6 +2,8 @@
 
 A modern, beginner-friendly Capture The Flag (CTF) training platform designed to help users learn cybersecurity through hands-on challenges and competition.
 
+This project was built for the **CSE 3100 Web Development Project**.
+
 ## Key Features
 - **Registration and Dual Login**: Sign up and login via username or email.
 - **Dynamic Challenges**: Solve tasks across categories like Web, Crypto, and Pwn.
