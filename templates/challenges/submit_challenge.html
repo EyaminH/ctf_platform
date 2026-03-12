@@ -1,44 +1,70 @@
 {% extends 'base.html' %}
 
-{% block title %}Submit Challenge - CTF Platform{% endblock %}
+{% block title %}Submit New Operation - TigerLabBD{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-dark text-white">
-                <h4 class="m-0">Submit New Challenge</h4>
+    <div class="col-md-7">
+        <div class="card border-0 shadow-lg overflow-hidden">
+            <div class="card-header bg-transparent border-bottom border-white border-opacity-10 py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                        <i class="bi bi-cloud-upload display-6 text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold m-0 text-white">Submit New Operation</h3>
+                        <p class="text-muted small m-0">Contribute to the TigerLabBD target database.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <p class="text-muted small">Share your challenge with the community! Note: Challenges require admin approval before they appear on the platform.</p>
+            <div class="card-body p-4">
+                <div class="alert bg-primary bg-opacity-5 border border-primary border-opacity-10 mb-4">
+                    <small class="text-primary"><i class="bi bi-info-circle-fill me-2"></i><strong>Note:</strong> All submissions undergo rigorous manual review by the Admiral Board before being deployed to the live terminal.</small>
+                </div>
+
                 <form method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="title" class="form-label fw-bold">Title</label>
-                        <input type="text" name="title" id="title" class="form-control" required>
+                    <div class="row g-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="title" class="form-label text-muted small text-uppercase tracking-widest fw-bold">Operation Name</label>
+                            <input type="text" name="title" id="title" class="form-control bg-dark text-white border-secondary border-opacity-25 py-2" placeholder="e.g. SQL Injection Mastery" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="category" class="form-label text-muted small text-uppercase tracking-widest fw-bold">Sector / Category</label>
+                            <select name="category" id="category" class="form-select bg-dark text-white border-secondary border-opacity-25 py-2" required>
+                                <option value="" selected disabled>Select a sector</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="points" class="form-label text-muted small text-uppercase tracking-widest fw-bold">Threat Level (Points)</label>
+                            <input type="number" name="points" id="points" class="form-control bg-dark text-white border-secondary border-opacity-25 py-2" value="100" min="1" max="1000" required>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label for="description" class="form-label text-muted small text-uppercase tracking-widest fw-bold">Technical Briefing (Description)</label>
+                            <textarea name="description" id="description" rows="5" class="form-control bg-dark text-white border-secondary border-opacity-25 py-2" placeholder="Describe the vulnerability and the objective of this operation..." required></textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <label for="flag" class="form-label text-muted small text-uppercase tracking-widest fw-bold">Authentication Token (Flag)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-primary mono">TigerLab{</span>
+                                <input type="text" name="flag" id="flag" class="form-control bg-dark text-white border-secondary border-opacity-25 py-2 mono" placeholder="secret_token_here" required>
+                                <span class="input-group-text bg-dark border-secondary border-opacity-25 text-primary mono">}</span>
+                            </div>
+                            <div class="form-text text-muted small">The flag should follow the `TigerLab{...}` format for consistency.</div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label fw-bold">Category</label>
-                        <select name="category" id="category" class="form-select" required>
-                            <option value="" selected disabled>Select a category</option>
-                            {% for category in categories %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="points" class="form-label fw-bold">Points</label>
-                        <input type="number" name="points" id="points" class="form-control" value="10" min="1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label fw-bold">Description</label>
-                        <textarea name="description" id="description" rows="4" class="form-control" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="flag" class="form-label fw-bold">Correct Flag</label>
-                        <input type="text" name="flag" id="flag" class="form-control" placeholder="CTF{...}" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Submit for Review</button>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3 mt-2 fw-bold text-uppercase tracking-wider">
+                        Upload to Command Center <i class="bi bi-chevron-right ms-1"></i>
+                    </button>
+                    <a href="{% url 'dashboard' %}" class="btn btn-link w-100 mt-3 text-muted text-decoration-none small">Cancel and Return to Base</a>
                 </form>
             </div>
         </div>

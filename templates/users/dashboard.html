@@ -1,103 +1,129 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - CTF Platform{% endblock %}
+{% block title %}Dashboard - TigerLabBD{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card shadow">
-            <div class="card-header bg-dark text-white text-center py-4">
-                <div class="display-4 mb-0 fw-bold">{{ user.profile.total_score }}</div>
-                <div class="text-uppercase small tracking-wide">Total Points</div>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="stat-card mb-4 shadow">
+            <i class="bi bi-trophy-fill display-4 text-warning mb-3"></i>
+            <div class="display-3 fw-bold mono mb-1 text-white">{{ user.profile.total_score }}</div>
+            <div class="text-uppercase small tracking-widest text-primary fw-bold">Current Operator Rating</div>
+            
+            <div class="mt-4 pt-4 border-top border-white border-opacity-10 d-flex justify-content-around">
+                <div>
+                    <div class="h5 mb-0 fw-bold">{{ solved_count }}</div>
+                    <small class="text-muted">Solved</small>
+                </div>
+                <div>
+                    <div class="h5 mb-0 fw-bold">{{ authored_challenges.count }}</div>
+                    <small class="text-muted">Authored</small>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title text-center">{{ user.username }}</h5>
-                <hr>
-                <div class="d-flex justify-content-between">
-                    <span>Account Created:</span>
-                    <span class="text-muted">{{ user.date_joined|date:"M d, Y" }}</span>
-                </div>
-                <div class="d-flex justify-content-between mt-2">
-                    <span>Challenges Solved:</span>
-                    <span class="fw-bold">{{ solved_count }}</span>
-                </div>
+        </div>
+
+        <div class="card p-4 shadow-lg">
+            <h5 class="fw-bold mb-4"><i class="bi bi-person-lines-fill me-2"></i>Profile Details</h5>
+            <div class="d-flex justify-content-between mb-3">
+                <span class="text-muted">Username</span>
+                <span class="fw-bold">{{ user.username }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <span class="text-muted">Email</span>
+                <span class="text-break text-end">{{ user.email }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span class="text-muted">Enlisted Since</span>
+                <span class="fw-bold">{{ user.date_joined|date:"M d, Y" }}</span>
             </div>
         </div>
     </div>
 
     <div class="col-md-8">
-        <h2 class="fw-bold mb-3">Your Authored Challenges</h2>
-        <div class="card shadow mb-5">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Title</th>
-                            <th>Points</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for challenge in authored_challenges %}
+        <div class="card shadow-lg mb-4">
+            <div class="card-header border-0 bg-transparent pt-4 px-4">
+                <h4 class="fw-bold m-0"><i class="bi bi-journal-code me-2"></i>Authored Operations</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
                             <tr>
-                                <td>{{ challenge.title }}</td>
-                                <td>{{ challenge.points }}</td>
-                                <td>
-                                    {% if challenge.status == 'APPROVED' %}
-                                        <span class="badge bg-success">Approved</span>
-                                    {% elif challenge.status == 'REJECTED' %}
-                                        <span class="badge bg-danger">Rejected</span>
-                                        {% if challenge.rejection_reason %}
-                                            <div class="small text-muted mt-1">Reason: {{ challenge.rejection_reason }}</div>
+                                <th class="ps-4">Operation</th>
+                                <th>Difficulty</th>
+                                <th>Status</th>
+                                <th class="pe-4">Deployment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for challenge in authored_challenges %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-white">{{ challenge.title }}</td>
+                                    <td>{{ challenge.points }} PTS</td>
+                                    <td>
+                                        {% if challenge.status == 'APPROVED' %}
+                                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3">Approved</span>
+                                        {% elif challenge.status == 'REJECTED' %}
+                                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3">Rejected</span>
+                                        {% else %}
+                                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3">Pending Review</span>
                                         {% endif %}
-                                    {% else %}
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-muted small">{{ challenge.created_at|date:"M d, Y" }}</td>
-                            </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="4" class="text-center py-4 text-muted">You haven't submitted any challenges yet.</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                    </td>
+                                    <td class="text-muted small pe-4">{{ challenge.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% if challenge.status == 'REJECTED' and challenge.rejection_reason %}
+                                <tr>
+                                    <td colspan="4" class="ps-4 py-2 bg-danger bg-opacity-10">
+                                        <small class="text-danger"><i class="bi bi-info-circle me-1"></i> <strong>Rejection Reason:</strong> {{ challenge.rejection_reason }}</small>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">No authored operations found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <h2 class="fw-bold mb-3">Your Submissions</h2>
-        <div class="card shadow">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Challenge</th>
-                            <th>Time</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for submission in submissions %}
+        <div class="card shadow-lg">
+            <div class="card-header border-0 bg-transparent pt-4 px-4">
+                <h4 class="fw-bold m-0"><i class="bi bi-activity me-2"></i>Mission History</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
                             <tr>
-                                <td>{{ submission.challenge.title }}</td>
-                                <td class="text-muted small">{{ submission.submitted_at|date:"M d, Y H:i" }}</td>
-                                <td>
-                                    {% if submission.is_correct %}
-                                        <span class="badge bg-success">Correct</span>
-                                    {% else %}
-                                        <span class="badge bg-danger">Incorrect</span>
-                                    {% endif %}
-                                </td>
+                                <th class="ps-4">Target Challenge</th>
+                                <th>Timestamp</th>
+                                <th class="pe-4">Result</th>
                             </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="3" class="text-center py-4 text-muted">No submissions yet.</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for submission in submissions %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-white">{{ submission.challenge.title }}</td>
+                                    <td class="text-muted small">{{ submission.submitted_at|date:"M d, Y H:i" }}</td>
+                                    <td class="pe-4">
+                                        {% if submission.is_correct %}
+                                            <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> Success</span>
+                                        {% else %}
+                                            <span class="text-danger"><i class="bi bi-x-circle-fill me-1"></i> Failed</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center py-5 text-muted">No historical data available.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

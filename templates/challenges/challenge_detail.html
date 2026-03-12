@@ -1,43 +1,77 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ challenge.title }} - CTF Platform{% endblock %}
+{% block title %}Deploying: {{ challenge.title }} - TigerLabBD{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-8">
-        <nav aria-label="breadcrumb">
+    <div class="col-md-9">
+        <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'challenge_list' %}">Challenges</a></li>
-                <li class="breadcrumb-item active">{{ challenge.category.name }}</li>
+                <li class="breadcrumb-item"><a href="{% url 'challenge_list' %}" class="text-primary text-decoration-none">Terminal</a></li>
+                <li class="breadcrumb-item text-muted">{{ challenge.category.name }}</li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ challenge.title }}</li>
             </ol>
         </nav>
 
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="m-0">{{ challenge.title }}</h4>
-                <span class="badge bg-primary fs-6">{{ challenge.points }} Points</span>
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-transparent border-bottom border-white border-opacity-10 py-4 px-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="badge-cyber mb-2 d-inline-block">{{ challenge.category.name }}</span>
+                    <h2 class="fw-bold m-0 text-white">{{ challenge.title }}</h2>
+                </div>
+                <div class="text-end">
+                    <div class="h3 fw-bold text-primary mb-0 mono">{{ challenge.points }}</div>
+                    <small class="text-muted text-uppercase tracking-widest">Points</small>
+                </div>
             </div>
-            <div class="card-body">
-                <p class="card-text lead">{{ challenge.description|linebreaks }}</p>
-                <p class="text-muted small">Author: {{ challenge.author.username|default:"Anonymous" }}</p>
-                
-                <hr>
-
-                {% if already_solved %}
-                    <div class="alert alert-success">
-                        <h5 class="alert-heading">Challenge Solved!</h5>
-                        <p>You have already correctly identified the flag for this challenge.</p>
+            
+            <div class="card-body p-4">
+                <div class="mb-5 p-4 rounded-3 border border-white border-opacity-5" style="background: rgba(0,0,0,0.2);">
+                    <h6 class="text-muted text-uppercase small tracking-widest mb-3"><i class="bi bi-file-earmark-text me-1"></i> Mission Briefing</h6>
+                    <div class="card-text fs-5 lh-lg text-white-50">
+                        {{ challenge.description|linebreaks }}
                     </div>
-                {% else %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="flag" class="form-label fw-bold">Enter Flag</label>
-                            <input type="text" name="flag" id="flag" class="form-control form-control-lg" placeholder="e.g. CTF{example_flag}" required>
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="d-flex align-items-center bg-dark bg-opacity-25 p-3 rounded-3 border border-white border-opacity-5">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-person-badge display-6 text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <small class="text-muted d-block text-uppercase small">Operation Author</small>
+                                <span class="fw-bold text-white">{{ challenge.author.username|default:"System Overlord" }}</span>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100">Submit Flag</button>
-                    </form>
-                {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        {% if already_solved %}
+                            <div class="alert bg-success bg-opacity-10 border-success border-opacity-25 p-4 text-center">
+                                <i class="bi bi-shield-check display-5 text-success mb-2"></i>
+                                <h5 class="fw-bold text-success">Mission Successful</h5>
+                                <p class="mb-0 text-success text-opacity-75">Flag captured and authenticated. Access granted.</p>
+                            </div>
+                        {% else %}
+                            <div class="p-4 bg-primary bg-opacity-5 rounded-3 border border-primary border-opacity-10">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="flag" class="form-label fw-bold text-primary small text-uppercase tracking-widest">Input Authentication Token</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-dark border-secondary text-primary border-opacity-25"><i class="bi bi-key"></i></span>
+                                            <input type="text" name="flag" id="flag" class="form-control form-control-lg bg-dark text-white border-secondary border-opacity-25 mono" placeholder="TigerLab{...}" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold text-uppercase tracking-wider">
+                                        Authenticate <i class="bi bi-shield-lock-fill ms-2"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
