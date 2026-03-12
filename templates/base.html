@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --primary-color: #2563eb;
+            --primary-color: #6187d8;
+            --primary-hover: #4a69bd;
             --text-main: #1e293b;
-            --text-muted: #64748b;
-            --bg-light: #f8fafc;
-            --border-color: #e2e8f0;
+            --text-muted: #475569;
+            --bg-light: #f1f4f8;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
         }
 
         body {
@@ -27,6 +29,7 @@
             background-color: #ffffff !important;
             border-bottom: 1px solid var(--border-color);
             padding: 0.75rem 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
         .navbar-brand {
@@ -51,6 +54,11 @@
             font-weight: 600;
             padding: 0.6rem 1.25rem;
             border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
         }
 
         .btn-outline-primary {
@@ -60,15 +68,21 @@
             border-radius: 6px;
         }
 
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
         .card {
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.2s ease;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card:hover {
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
@@ -79,14 +93,15 @@
         }
 
         .alert {
+            background-color: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-weight: 500;
         }
 
         .table thead th {
-            background-color: #f1f5f9;
-            color: var(--text-muted);
+            background-color: #e2e8f0;
+            color: var(--text-main);
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -97,6 +112,7 @@
         .table td {
             padding: 1rem;
             vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
         }
     </style>
     {% block extra_css %}{% endblock %}
