@@ -1,4 +1,8 @@
-# CTF Training Platform
+# TigerLabBD
+
+![TigerLabBD Logo](static/images/logo.png)
+
+### Bangladesh Cybersecurity & CTF Training Platform
 
 A modern, beginner-friendly Capture The Flag (CTF) training platform designed to help users learn cybersecurity through hands-on challenges and competition.
 
