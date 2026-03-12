@@ -25,7 +25,7 @@
                     {% for challenge in pending_challenges %}
                         <tr>
                             <td class="ps-4">
-                                <div class="fw-bold text-dark">{{ challenge.title }}</div>
+                                <a href="{% url 'admin_challenge_detail' challenge.pk %}" class="fw-bold text-dark text-decoration-none hover-primary">{{ challenge.title }}</a>
                                 <div class="text-muted small">{{ challenge.author.username }}</div>
                             </td>
                             <td>
@@ -34,14 +34,7 @@
                             <td class="fw-medium">{{ challenge.points }}</td>
                             <td class="text-muted small">{{ challenge.created_at|date:"M d, Y" }}</td>
                             <td class="text-end pe-4">
-                                <form action="{% url 'approve_challenge' challenge.pk %}" method="post" class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-success px-3">Approve</button>
-                                </form>
-                                <form action="{% url 'reject_challenge' challenge.pk %}" method="post" class="d-inline ms-1">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Reject and delete this challenge?')">Reject</button>
-                                </form>
+                                <a href="{% url 'admin_challenge_detail' challenge.pk %}" class="btn btn-sm btn-primary px-3">Review</a>
                             </td>
                         </tr>
                     {% empty %}
